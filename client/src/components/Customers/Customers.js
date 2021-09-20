@@ -17,14 +17,11 @@ const Customers = () => {
     let lastName = lastNameRef.current.value;
     setErrorFirst("");
     setErrorSecond("");
-    axios({
-      method: "POST",
-      url: "/api/customers",
-      data: {
+    axios
+      .post("/api/customers", {
         firstName: firstName,
-        lastName: lastName,
-      },
-    })
+        lastName: lastName
+      })
       .then((res) => {
         if (res.status === 201) {
           setServerResponse("Added new Person!");
@@ -73,16 +70,25 @@ const Customers = () => {
       <h2 className="title">Customers</h2>
       <ul>{customersList}</ul>
       <form className="form" id="myForm" onSubmit={handleSubmit}>
-        <label htmlFor="firstName">First Name:
-        <input type="text" name="firstName" id="firstName" ref={firstNameRef} />
+        <label htmlFor="firstName">
+          First Name:
+          <input
+            type="text"
+            name="firstName"
+            id="firstName"
+            ref={firstNameRef}
+          />
         </label>
         {errorFirst && <span className="error-post">{errorFirst}</span>}
-        <label htmlFor="lastName">Last Name:
-        <input type="text" name="lastName" id="lastName" ref={lastNameRef} />
+        <label htmlFor="lastName">
+          Last Name:
+          <input type="text" name="lastName" id="lastName" ref={lastNameRef} />
         </label>
         {errorSecond && <span className="error-post">{errorSecond}</span>}
         {serverResponse && <span>{serverResponse}</span>}
-        <button type="submit" className="show">Add Customer</button>
+        <button type="submit" className="show">
+          Add Customer
+        </button>
       </form>
     </div>
   );
