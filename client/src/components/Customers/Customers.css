@@ -1,3 +1,7 @@
+.title {
+  margin: 30px 0;
+}
+
 ul {
   padding: 0;
   list-style: none;
@@ -15,11 +19,35 @@ li {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px
+  width: 30%;
+  margin: 50px auto;
+  background-color: #fff;
+  border-radius: 0.25rem;
+  box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.3);
+  padding: .95rem;
 }
-.content {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  row-gap: 30px;
+.form > * {
+  margin-bottom: 30px;
+}
+input {
+  margin-left: 25px;
+  height: 30px;
+}
+.delete {
+  margin-left: 20px;
+  padding: 2px 5px 0;
+}
+.error-post {
+  margin: 0 0 20px 0;
+  color: red;
+}
+.show {
+
+  background-color: #282c34;
+  font-weight: bold;
+  padding: 8px;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+
 }

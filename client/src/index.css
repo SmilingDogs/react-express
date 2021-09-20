@@ -5,3 +5,9 @@
 
 }
 body, button {font-family: arial, sans-serif}
+
+a {
+  text-decoration: none;
+  color: #282c34;
+  font-weight: 600;
+}

@@ -1,5 +1,6 @@
 const express = require("express");
-const cors = require('cors')
+// const cors = require('cors')
+const Joi = require("joi")
 
 
 const app = express(); //*создали сервер через express()
@@ -14,23 +15,35 @@ let customers = [
     {id: 3, firstName: 'Jason', lastName: 'Statham'},
   ];
 
-app.get("/", cors(), (req, res) => {
-  res.send('Hello World') //* показывать на роуте / (=== localhost:${PORT})
+app.get("/", (req, res) => {
+  res.send(`<h1>Hello World</h1>`) //* показывать на роуте / (=== localhost:${PORT})
 })
 
-app.get('/api/customers', cors(), (req, res) => {
-  res.json(customers); //* отправить массив customers
+app.get('/api/customers', (req, res) => {
+  res.send(customers); //* отправить массив customers
 
 });
-app.get('/api/customers/:id', cors(), (req, res) => {
+app.get('/api/customers/:id', (req, res) => {
   const {id} = req.params
   const customer = customers.find(c => c.id === +id)
   if(!customer) res.status(404).send('The customer with this ID was not found...')
-  res.send(customer)
+  res.send(customer) //* отправить отдельного customerа
 
 });
 
-app.post('/api/customers', cors(), (req, res) => {
+app.post('/api/customers', (req, res) => {
+
+  const schema = Joi.object({
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required()
+});
+  const result = schema.validate(req.body)
+  console.log(result);
+
+  if(result.error) {
+    res.status(400).send(result.error.message)
+    return
+  }
   const newCustomer = {
     id: customers.length + 1, //*normally id is assigned by Mongo or other DBs automatically
     firstName: req.body.firstName,
@@ -46,4 +59,4 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-//* a testing app for communocation of front and back
+//* a testing app for communication of front and back

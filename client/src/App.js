@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Customers from './components/Customers/Customers';
+import AppRoutes from './routes/AppRoutes';
 
 
 function App() {
@@ -9,19 +9,18 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Learn React - Express/NodeJS communication
         </p>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="https://expressjs.com/ru/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Learn ExpressJS
         </a>
       </header>
-      <Customers />
-      
+      <AppRoutes />
     </div>
   );
 }
