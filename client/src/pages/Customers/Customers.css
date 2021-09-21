@@ -41,13 +41,4 @@ input {
   margin: 0 0 20px 0;
   color: red;
 }
-.show {
 
-  background-color: #282c34;
-  font-weight: bold;
-  padding: 8px;
-  font-size: 18px;
-  color: #fff;
-  cursor: pointer;
-
-}

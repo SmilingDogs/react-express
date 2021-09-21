@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import Customers from "../components/Customers/Customers";
-import Customer from "../pages/Customer";
+import Customers from "../pages/Customers/Customers";
+import Customer from "../pages/Customer/Customer";
 
 const AppRoutes = () => {
   return (

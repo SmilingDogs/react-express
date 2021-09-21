@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./Customers.css";
+import CustomerForm from "../../components/CustomerForm/CustomerForm";
 
 const Customers = () => {
   const firstNameRef = useRef(null);
@@ -11,7 +12,7 @@ const Customers = () => {
   const [errorSecond, setErrorSecond] = useState("");
   const [serverResponse, setServerResponse] = useState("");
 
-  const handleSubmit = (e) => {
+  const handlePostSubmit = (e) => {
     e.preventDefault();
     let firstName = firstNameRef.current.value;
     let lastName = lastNameRef.current.value;
@@ -20,7 +21,7 @@ const Customers = () => {
     axios
       .post("/api/customers", {
         firstName: firstName,
-        lastName: lastName
+        lastName: lastName,
       })
       .then((res) => {
         if (res.status === 201) {
@@ -69,27 +70,14 @@ const Customers = () => {
     <div>
       <h2 className="title">Customers</h2>
       <ul>{customersList}</ul>
-      <form className="form" id="myForm" onSubmit={handleSubmit}>
-        <label htmlFor="firstName">
-          First Name:
-          <input
-            type="text"
-            name="firstName"
-            id="firstName"
-            ref={firstNameRef}
-          />
-        </label>
-        {errorFirst && <span className="error-post">{errorFirst}</span>}
-        <label htmlFor="lastName">
-          Last Name:
-          <input type="text" name="lastName" id="lastName" ref={lastNameRef} />
-        </label>
-        {errorSecond && <span className="error-post">{errorSecond}</span>}
-        {serverResponse && <span>{serverResponse}</span>}
-        <button type="submit" className="show">
-          Add Customer
-        </button>
-      </form>
+      <CustomerForm
+        onSubmit={handlePostSubmit}
+        errorFirst={errorFirst}
+        errorSecond={errorSecond}
+        serverResponse={serverResponse}
+        firstNameRef={firstNameRef}
+        lastNameRef={lastNameRef}
+      />
     </div>
   );
 };
