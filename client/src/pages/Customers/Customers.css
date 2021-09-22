@@ -1,5 +1,6 @@
 .title {
   margin: 30px 0;
+  color: #777;
 }
 
 ul {
@@ -10,9 +11,12 @@ ul {
 }
 
 li {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   line-height: 2rem;
   border-bottom: 1px dotted #777;
+  display: flex;
+  justify-content: space-between;
+
 }
 .form {
   display: flex;
@@ -34,11 +38,25 @@ input {
   height: 30px;
 }
 .delete {
-  margin-left: 20px;
-  padding: 2px 5px 0;
+  padding: 0 10px;
+  font-size: 30px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+.delete:first-of-type {
+  visibility: hidden;
 }
 .error-post {
   margin: 0 0 20px 0;
   color: red;
 }
-
+.list-item:hover {
+  background-color: #282c34;
+}
+.list-item:hover .list-item__title {
+  color: #fff;
+}
+.list-item:hover .delete {
+  color: #fff;
+}

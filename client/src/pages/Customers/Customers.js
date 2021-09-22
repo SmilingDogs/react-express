@@ -10,8 +10,10 @@ const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [errorFirst, setErrorFirst] = useState("");
   const [errorSecond, setErrorSecond] = useState("");
+  const [deleteResponse, setDeleteResponse] = useState("");
   const [serverResponse, setServerResponse] = useState("");
 
+  //*Adding new Customer
   const handlePostSubmit = (e) => {
     e.preventDefault();
     let firstName = firstNameRef.current.value;
@@ -44,6 +46,21 @@ const Customers = () => {
     }, 2000);
   };
 
+  //*deleting Customer
+  const deleteCustomer = (id) => {
+    axios
+      .delete(`/api/customers/${id}`)
+      .then((res) => {
+        const {firstName, lastName} = res.data
+        setDeleteResponse(`${firstName} ${lastName} was deleted!`)
+      })
+      .catch((err) => console.log(err.response.data));
+      setTimeout(() => {
+        setDeleteResponse("");
+      }, 2000);
+  };
+
+  //*Updating the state of customers array
   useEffect(() => {
     let cleanupFunction = false;
 
@@ -52,29 +69,33 @@ const Customers = () => {
       .then((data) => {
         if (!cleanupFunction) setCustomers(data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err)
+      });
 
     return () => (cleanupFunction = true);
   }, [customers]);
 
+  //*Mapping array to JSX epression
+
   const customersList = customers.map((c) => (
-    <li key={c.id}>
-      <Link to={`/customers/${c.id}`}>
-        {c.firstName} {c.lastName}
-      </Link>
+    <li key={c.id} className="list-item">
       <button className="delete">&times;</button>
+      <Link to={`/customers/${c.id}`} className="list-item__title">{c.firstName} {c.lastName}</Link>
+      <button className="delete" onClick={() => deleteCustomer(c.id)}>&times;</button>
     </li>
   ));
 
   return (
     <div>
-      <h2 className="title">Customers</h2>
+      <h2 className="title">{customers.length ? "Customers" : "No Customers"}</h2>
       <ul>{customersList}</ul>
+      {deleteResponse && <span>{deleteResponse}</span>}
+      {serverResponse && <span>{serverResponse}</span>}
       <CustomerForm
         onSubmit={handlePostSubmit}
         errorFirst={errorFirst}
         errorSecond={errorSecond}
-        serverResponse={serverResponse}
         firstNameRef={firstNameRef}
         lastNameRef={lastNameRef}
       />

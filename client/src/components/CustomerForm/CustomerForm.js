@@ -22,8 +22,7 @@ const CustomerForm = ({
         <input type="text" name="lastName" id="lastName" ref={lastNameRef} />
       </label>
       {errorSecond && <span className="error-post">{errorSecond}</span>}
-      {serverResponse && <span>{serverResponse}</span>}
-      <button type="submit" class="show">{ location === 'customers' ? "Edit Customer" : "Add Customer" }</button>
+      <button type="submit" className="show">{ location === 'customers' ? "Edit Customer" : "Add Customer" }</button>
     </form>
   );
 };

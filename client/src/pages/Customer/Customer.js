@@ -79,11 +79,11 @@ const Customer = ({ match }) => {
       <div className="customer">
         <OneCustomer {...customer} />
       </div>
+      {serverResponse && <span>{serverResponse}</span>}
       <CustomerForm
         onSubmit={handlePutSubmit}
         errorFirst={errorFirst}
         errorSecond={errorSecond}
-        serverResponse={serverResponse}
         firstNameRef={firstNameRef}
         lastNameRef={lastNameRef}
         location={url}
