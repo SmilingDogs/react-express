@@ -15,9 +15,9 @@ const Customer = ({ match }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const { customerId } = match.params;
-  const url = match.url.split("/")[1]
+  const url = match.url.split("/")[1];
 
-  const handlePutSubmit = (e) => {
+  const editCustomerData = (e) => {
     e.preventDefault();
     let firstName = firstNameRef.current.value;
     let lastName = lastNameRef.current.value;
@@ -31,8 +31,8 @@ const Customer = ({ match }) => {
       .then((res) => {
         if (res.status === 200) {
           setServerResponse(`Changed Customer with id ${customerId}`);
-          setCustomer(res.data)
-          setLoading(false)
+          setCustomer(res.data);
+          setLoading(false);
         }
       })
       .catch((err) => {
@@ -81,13 +81,12 @@ const Customer = ({ match }) => {
       </div>
       {serverResponse && <span>{serverResponse}</span>}
       <CustomerForm
-        onSubmit={handlePutSubmit}
+        onSubmit={editCustomerData}
         errorFirst={errorFirst}
         errorSecond={errorSecond}
         firstNameRef={firstNameRef}
         lastNameRef={lastNameRef}
         location={url}
-
       />
       <Link to="/">Back</Link>
     </>

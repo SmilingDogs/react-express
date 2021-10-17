@@ -10,7 +10,7 @@ ul {
   margin: auto;
 }
 
-li {
+.list-item {
   font-size: 1.5rem;
   line-height: 2rem;
   border-bottom: 1px dotted #777;

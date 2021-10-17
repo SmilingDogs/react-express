@@ -5,7 +5,6 @@ const CustomerForm = ({
   onSubmit,
   errorFirst,
   errorSecond,
-  serverResponse,
   firstNameRef,
   lastNameRef,
   location

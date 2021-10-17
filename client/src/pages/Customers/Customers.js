@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import "./Customers.css";
 import CustomerForm from "../../components/CustomerForm/CustomerForm";
+import CustomerComponent from "../../components/CustomerComponent/CustomerComponent";
+
 
 const Customers = () => {
   const firstNameRef = useRef(null);
@@ -12,6 +13,7 @@ const Customers = () => {
   const [errorSecond, setErrorSecond] = useState("");
   const [deleteResponse, setDeleteResponse] = useState("");
   const [serverResponse, setServerResponse] = useState("");
+
 
   //*Adding new Customer
   const handlePostSubmit = (e) => {
@@ -51,14 +53,18 @@ const Customers = () => {
     axios
       .delete(`/api/customers/${id}`)
       .then((res) => {
-        const {firstName, lastName} = res.data
-        setDeleteResponse(`${firstName} ${lastName} was deleted!`)
+        const { firstName, lastName } = res.data;
+        setDeleteResponse(`${firstName} ${lastName} was deleted!`);
       })
       .catch((err) => console.log(err.response.data));
-      setTimeout(() => {
-        setDeleteResponse("");
-      }, 2000);
+    setTimeout(() => {
+      setDeleteResponse("");
+    }, 2000);
   };
+
+  // const handleClick = () => {
+  //   onToggle();
+  // };
 
   //*Updating the state of customers array
   useEffect(() => {
@@ -70,7 +76,7 @@ const Customers = () => {
         if (!cleanupFunction) setCustomers(data);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
       });
 
     return () => (cleanupFunction = true);
@@ -79,16 +85,14 @@ const Customers = () => {
   //*Mapping array to JSX epression
 
   const customersList = customers.map((c) => (
-    <li key={c.id} className="list-item">
-      <button className="delete">&times;</button>
-      <Link to={`/customers/${c.id}`} className="list-item__title">{c.firstName} {c.lastName}</Link>
-      <button className="delete" onClick={() => deleteCustomer(c.id)}>&times;</button>
-    </li>
+    <CustomerComponent key={c.id} {...c} deleteCustomer={deleteCustomer}/>
   ));
 
   return (
     <div>
-      <h2 className="title">{customers.length ? "Customers" : "No Customers"}</h2>
+      <h2 className="title">
+        {customers.length ? "Customers" : "No Customers"}
+      </h2>
       <ul>{customersList}</ul>
       {deleteResponse && <span>{deleteResponse}</span>}
       {serverResponse && <span>{serverResponse}</span>}
@@ -99,6 +103,8 @@ const Customers = () => {
         firstNameRef={firstNameRef}
         lastNameRef={lastNameRef}
       />
+
+
     </div>
   );
 };
