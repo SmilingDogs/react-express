@@ -1,6 +1,6 @@
-const express = require("express");
-const { v4: uuidv4 } = require("uuid");
-const Joi = require("joi");
+const express = require('express');
+const { v4: uuidv4 } = require('uuid');
+const Joi = require('joi');
 // const cors = require('cors')
 
 const app = express(); //*создали сервер через express()
@@ -9,36 +9,39 @@ app.use(express.json()); //*для корректного получения д�
 app.use(express.urlencoded({ extended: false })); //*для корректного получения данных в url-encoded format
 
 let customers = [
-  { id: uuidv4(), firstName: "Jane", lastName: "Smith" },
-  { id: uuidv4(), firstName: "Johh", lastName: "Rambo" },
-  { id: uuidv4(), firstName: "Chuck", lastName: "Norris" },
+  { id: uuidv4(), firstName: 'Jane', lastName: 'Smith' },
+  { id: uuidv4(), firstName: 'Johh', lastName: 'Rambo' },
+  { id: uuidv4(), firstName: 'Chuck', lastName: 'Norris' },
 ];
 
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
   res.send(`<h1>Hello World</h1>`);
 });
 
-app.get("/api/customers", (req, res) => {
+app.get('/api/customers', (req, res) => {
   res.send(customers);
 });
 
-app.get("/api/customers/:id", (req, res) => {
+app.get('/api/customers/:id', (req, res) => {
   const { id } = req.params;
-  
+
   const customer = customers.find((c) => c.id === id); //! все id === СТРОКИ, uuid() = тоже
-  if (!customer)
-    return res.status(404).send("The customer with this ID was not found...");
+  if (!customer) {
+    return res.status(404).send('The customer with this ID was not found...');
+  }
+
   res.send(customer); //* отправить отдельного customerа
 });
 
-app.put("/api/customers/:id", (req, res) => {
+app.put('/api/customers/:id', (req, res) => {
   //* Look up the customer
   const { id } = req.params;
   const customer = customers.find((c) => c.id === id);
 
   //* If such customer doesnt exist = return 404 status
-  if (!customer)
-    return res.status(404).send("The customer with this ID was not found...");
+  if (!customer) {
+    return res.status(404).send('The customer with this ID was not found...');
+  }
 
   const { error } = validateCustomer(req.body); //*нужно присвоить результат валидации и сразу достать из него error
 
@@ -51,7 +54,7 @@ app.put("/api/customers/:id", (req, res) => {
   res.send(customer); //* then return the updated customer to the client
 });
 
-app.post("/api/customers", (req, res) => {
+app.post('/api/customers', (req, res) => {
   const { error } = validateCustomer(req.body);
 
   if (error) return res.status(400).send(error.message);
@@ -65,11 +68,11 @@ app.post("/api/customers", (req, res) => {
   res.status(201).send(newCustomer);
 });
 
-app.delete("/api/customers/:id", (req, res) => {
+app.delete('/api/customers/:id', (req, res) => {
   const { id } = req.params;
   const customerToDelete = customers.find((c) => c.id === id);
   if (!customerToDelete)
-    return res.status(404).send("The customer with this ID was not found...");
+    return res.status(404).send('The customer with this ID was not found...');
 
   const deleteIndex = customers.indexOf(customerToDelete);
   customers.splice(deleteIndex, 1);
