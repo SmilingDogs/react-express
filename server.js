@@ -4,9 +4,16 @@ const Joi = require('joi');
 // const cors = require('cors')
 
 const app = express(); //*создали сервер через express()
-app.use(express.static(__dirname + '/client/public/index.html'));
+
 app.use(express.json()); //*для корректного получения данных в JSON-format
 app.use(express.urlencoded({ extended: false })); //*для корректного получения данных в url-encoded format
+
+app.use(express.static(__dirname + '/public'))
+
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html')
+})
+
 
 let customers = [
   { id: uuidv4(), firstName: 'Jane', lastName: 'Smith' },
@@ -80,6 +87,7 @@ app.delete('/api/customers/:id', (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
