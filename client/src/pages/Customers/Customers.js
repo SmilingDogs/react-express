@@ -1,50 +1,51 @@
-import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import "./Customers.css";
-import CustomerForm from "../../components/CustomerForm/CustomerForm";
-import CustomerComponent from "../../components/CustomerComponent/CustomerComponent";
-
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import './Customers.css';
+import CustomerForm from '../../components/CustomerForm/CustomerForm';
+import CustomerComponent from '../../components/CustomerComponent/CustomerComponent';
 
 const Customers = () => {
   const firstNameRef = useRef(null);
   const lastNameRef = useRef(null);
   const [customers, setCustomers] = useState([]);
-  const [errorFirst, setErrorFirst] = useState("");
-  const [errorSecond, setErrorSecond] = useState("");
-  const [deleteResponse, setDeleteResponse] = useState("");
-  const [serverResponse, setServerResponse] = useState("");
-
+  const [errorFirst, setErrorFirst] = useState('');
+  const [errorSecond, setErrorSecond] = useState('');
+  const [deleteResponse, setDeleteResponse] = useState('');
+  const [serverResponse, setServerResponse] = useState('');
 
   //*Adding new Customer
   const handlePostSubmit = (e) => {
+
     e.preventDefault();
+
     let firstName = firstNameRef.current.value;
     let lastName = lastNameRef.current.value;
-    setErrorFirst("");
-    setErrorSecond("");
+    setErrorFirst('');
+    setErrorSecond('');
+    
     axios
-      .post("/api/customers", {
+      .post('/api/customers', {
         firstName: firstName,
         lastName: lastName,
       })
       .then((res) => {
         if (res.status === 201) {
-          setServerResponse("Added new Person!");
+          setServerResponse('Added new Person!');
+          firstNameRef.current.value = '';
+          lastNameRef.current.value = '';
         }
       })
       .catch((err) => {
         console.log(err.response.data);
-        if (err.response.data.includes("firstName")) {
+        if (err.response.data.includes('firstName')) {
           setErrorFirst(err.response.data);
         } else {
           setErrorSecond(err.response.data);
         }
       });
 
-    firstNameRef.current.value = "";
-    lastNameRef.current.value = "";
     setTimeout(() => {
-      setServerResponse("");
+      setServerResponse('');
     }, 2000);
   };
 
@@ -58,7 +59,7 @@ const Customers = () => {
       })
       .catch((err) => console.log(err.response.data));
     setTimeout(() => {
-      setDeleteResponse("");
+      setDeleteResponse('');
     }, 2000);
   };
 
@@ -70,7 +71,7 @@ const Customers = () => {
   useEffect(() => {
     let cleanupFunction = false;
 
-    fetch("/api/customers")
+    fetch('/api/customers')
       .then((res) => res.json())
       .then((data) => {
         if (!cleanupFunction) setCustomers(data);
@@ -85,13 +86,13 @@ const Customers = () => {
   //*Mapping array to JSX epression
 
   const customersList = customers.map((c) => (
-    <CustomerComponent key={c.id} {...c} deleteCustomer={deleteCustomer}/>
+    <CustomerComponent key={c.id} {...c} deleteCustomer={deleteCustomer} />
   ));
 
   return (
     <div>
       <h2 className="title">
-        {customers.length ? "Customers" : "No Customers"}
+        {customers.length ? 'Customers' : 'No Customers'}
       </h2>
       <ul>{customersList}</ul>
       {deleteResponse && <span>{deleteResponse}</span>}
@@ -103,8 +104,6 @@ const Customers = () => {
         firstNameRef={firstNameRef}
         lastNameRef={lastNameRef}
       />
-
-
     </div>
   );
 };
