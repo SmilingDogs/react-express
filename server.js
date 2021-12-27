@@ -4,7 +4,7 @@ const Joi = require('joi');
 // const cors = require('cors')
 
 const app = express(); //*создали сервер через express()
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/client/public/index.html'));
 app.use(express.json()); //*для корректного получения данных в JSON-format
 app.use(express.urlencoded({ extended: false })); //*для корректного получения данных в url-encoded format
 
