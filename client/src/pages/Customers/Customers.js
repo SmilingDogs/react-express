@@ -63,10 +63,7 @@ const Customers = () => {
     }, 2000);
   };
 
-  // const handleClick = () => {
-  //   onToggle();
-  // };
-
+  
   //*Updating the state of customers array
   useEffect(() => {
     let cleanupFunction = false;
@@ -83,7 +80,7 @@ const Customers = () => {
     return () => (cleanupFunction = true);
   }, [customers]);
 
-  //*Mapping array to JSX epression
+  //*Mapping array to JSX expression
 
   const customersList = customers.map((c) => (
     <CustomerComponent key={c.id} {...c} deleteCustomer={deleteCustomer} />
