@@ -8,16 +8,14 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Learn React - Express/NodeJS communication
-        </p>
+        <p>Client (React) - Server (ExpressJS) communication</p>
         <a
           className="App-link"
           href="https://expressjs.com/ru/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn ExpressJS
+          REST API application
         </a>
       </header>
       <AppRoutes />

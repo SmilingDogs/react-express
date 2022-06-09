@@ -50,12 +50,12 @@ const Customers = () => {
   };
 
   //*deleting Customer
-  const deleteCustomer = (id) => {
+  const deleteCustomer = (_id) => {
     axios
-      .delete(`/api/customers/${id}`)
+      .delete(`/api/customers/${_id}`)
       .then((res) => {
-        const { firstName, lastName } = res.data;
-        setDeleteResponse(`${firstName} ${lastName} was deleted!`);
+        const { message } = res.data;
+        setDeleteResponse(message);
       })
       .catch((err) => console.log(err.response.data));
     setTimeout(() => {
@@ -83,7 +83,7 @@ const Customers = () => {
   //*Mapping array to JSX expression
 
   const customersList = customers.map((c) => (
-    <CustomerComponent key={c.id} {...c} deleteCustomer={deleteCustomer} />
+    <CustomerComponent key={c._id} {...c} deleteCustomer={deleteCustomer} />
   ));
 
   return (
