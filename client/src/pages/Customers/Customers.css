@@ -44,7 +44,7 @@ input {
   background-color: transparent;
   cursor: pointer;
 }
-.delete:first-of-type {
+.delete-hidden {
   visibility: hidden;
 }
 .error-post {

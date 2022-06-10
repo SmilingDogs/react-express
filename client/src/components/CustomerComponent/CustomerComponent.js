@@ -9,13 +9,11 @@ const CustomerComponent = ({ _id, firstName, lastName, deleteCustomer }) => {
   return (
     <div>
       <li className="list-item">
-        <button className="delete">&times;</button>
+        <button className="delete-hidden">&times;</button>
         <Link to={`/customers/${_id}`} className="list-item__title">
           {firstName} {lastName}
         </Link>
-        <button className="delete" onClick={onOpen}>
-          &times;
-        </button>
+        <button className="delete" onClick={onOpen}>&times;</button>
       </li>
       <Modal open={isOpen} setModalClose={onClose}>
         <h2>You are deleting {firstName} {lastName}. Sure?</h2>
