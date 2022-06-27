@@ -12,9 +12,10 @@ const Customers = () => {
   const [errorSecond, setErrorSecond] = useState('');
   const [deleteResponse, setDeleteResponse] = useState('');
   const [serverResponse, setServerResponse] = useState('');
+  const [updateList, setUpdateList] = useState(false);
 
   //*Adding new Customer
-  const handlePostSubmit = (e) => {
+  const addNewCustomer = (e) => {
 
     e.preventDefault();
 
@@ -22,7 +23,7 @@ const Customers = () => {
     let lastName = lastNameRef.current.value;
     setErrorFirst('');
     setErrorSecond('');
-    
+
     axios
       .post('/api/customers', {
         firstName: firstName,
@@ -47,6 +48,8 @@ const Customers = () => {
     setTimeout(() => {
       setServerResponse('');
     }, 2000);
+  
+    setUpdateList(!updateList);
   };
 
   //*deleting Customer
@@ -58,12 +61,14 @@ const Customers = () => {
         setDeleteResponse(message);
       })
       .catch((err) => console.log(err.response.data));
+
     setTimeout(() => {
       setDeleteResponse('');
     }, 2000);
+
+    setUpdateList(!updateList);
   };
 
-  
   //*Updating the state of customers array
   useEffect(() => {
     let cleanupFunction = false;
@@ -78,7 +83,7 @@ const Customers = () => {
       });
 
     return () => (cleanupFunction = true);
-  }, [customers]);
+  }, [updateList]);
 
   //*Mapping array to JSX expression
 
@@ -95,7 +100,7 @@ const Customers = () => {
       {deleteResponse && <span>{deleteResponse}</span>}
       {serverResponse && <span>{serverResponse}</span>}
       <CustomerForm
-        onSubmit={handlePostSubmit}
+        onSubmit={addNewCustomer}
         errorFirst={errorFirst}
         errorSecond={errorSecond}
         firstNameRef={firstNameRef}

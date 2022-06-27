@@ -18,7 +18,10 @@ const CustomerComponent = ({ _id, firstName, lastName, deleteCustomer }) => {
       <Modal open={isOpen} setModalClose={onClose}>
         <h2>You are deleting {firstName} {lastName}. Sure?</h2>
         <div className="buttons-block">
-          <button onClick={() => deleteCustomer(_id)}>YES</button>
+          <button onClick={() => {
+            deleteCustomer(_id);
+            onClose();
+          }}>YES</button>
           <button onClick={onClose}>NO</button>
         </div>
       </Modal>

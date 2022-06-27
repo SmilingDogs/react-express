@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Joi = require('joi');
 // const { v4: uuidv4 } = require('uuid');
-const Customer = require('../models/customer');
+const CustomerModel = require('../models/customer');
+const { getCustomer } = require('../helpers/getCustomer');
+const { validateCustomer } = require('../helpers/validator');
 
+// hardcode database
 // let customers = [
 //     { id: uuidv4(), firstName: 'Jason', lastName: 'Statham' },
 //     { id: uuidv4(), firstName: 'Arnold', lastName: 'Schwarzenegger' },
@@ -14,12 +16,12 @@ router.get('/', (req, res) => {
   res.send(`<h1>Hello World</h1>`);
 });
 
-//Getting all customers
+//* Getting all customers
 
 router.get('/api/customers', (req, res) => {
   // res.send(customers);
 
-  Customer.find() //gets an array pf all customer objects from MongoDB
+  CustomerModel.find() //gets an array pf all customer objects from MongoDB
     .then((data) => {
       const customers = data;
       res.send(customers);
@@ -53,7 +55,7 @@ router.post('/api/customers', (req, res) => {
   // customers.push(newCustomer);
   // res.status(201).send(newCustomer);
 
-  const customer = new Customer({
+  const customer = new CustomerModel({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
   });
@@ -79,18 +81,18 @@ router.put('/api/customers/:id', getCustomer, (req, res) => {
   // if (!customer) {
   //   return res.status(404).send('The customer with this ID was not found...');
   // }
-
   const { error } = validateCustomer(req.body); //*нужно присвоить результат валидации и сразу достать из него error
 
   if (error) return res.status(400).send(error.message);
   let customer = res.customer;
+
   //* if all ok, Update the customer
   customer.firstName = req.body.firstName;
   customer.lastName = req.body.lastName;
   customer.save()
     .then(() => {
       const updatedCustomer = customer;
-      res.send(updatedCustomer);
+      res.status(200).send(updatedCustomer);
     })
     .catch((err) => {
       res.status(400).json({ message: err.message });
@@ -99,7 +101,7 @@ router.put('/api/customers/:id', getCustomer, (req, res) => {
   // res.send(customer); //* then return the updated customer to the client
 });
 
-//Deleting exsiting customer
+//*Deleting exsiting customer
 
 router.delete('/api/customers/:id', getCustomer, (req, res) => {
   // const { id } = req.params;
@@ -121,32 +123,5 @@ router.delete('/api/customers/:id', getCustomer, (req, res) => {
     });
 });
 
-async function getCustomer(req, res, next) {
-  let customer;
-  try {
-    const { id } = req.params;
-    customer = await Customer.findById(id);
-    if (!customer) {
-      return res.status(404).json('Can not find such customer...');
-    }
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
-
-  res.customer = customer;
-
-  next();
-}
-
-function validateCustomer(customer) {
-  //* выносим Валидацию Joi отдельно чтобы не дублировать в разных местах.
-
-  const schema = Joi.object({
-    firstName: Joi.string().required(),
-    lastName: Joi.string().required(),
-  });
-
-  return schema.validate(customer);
-}
 
 module.exports = router;

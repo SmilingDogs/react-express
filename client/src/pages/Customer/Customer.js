@@ -17,7 +17,7 @@ const Customer = ({ match }) => {
   const { customerId } = match.params;
   const url = match.url.split("/")[1];
 
-  const editCustomerData = (e) => {
+  const editCustomer = (e) => {
     e.preventDefault();
     let firstName = firstNameRef.current.value;
     let lastName = lastNameRef.current.value;
@@ -46,6 +46,7 @@ const Customer = ({ match }) => {
 
     firstNameRef.current.value = "";
     lastNameRef.current.value = "";
+  
     setTimeout(() => {
       setServerResponse("");
     }, 2000);
@@ -81,7 +82,7 @@ const Customer = ({ match }) => {
       </div>
       {serverResponse && <span>{serverResponse}</span>}
       <CustomerForm
-        onSubmit={editCustomerData}
+        onSubmit={editCustomer}
         errorFirst={errorFirst}
         errorSecond={errorSecond}
         firstNameRef={firstNameRef}
