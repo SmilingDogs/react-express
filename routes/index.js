@@ -24,7 +24,7 @@ router.get('/api/customers', (req, res) => {
   CustomerModel.find() //gets an array pf all customer objects from MongoDB
     .then((data) => {
       const customers = data;
-      res.send(customers);
+      res.status(200).send(customers);
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
@@ -117,7 +117,7 @@ router.delete('/api/customers/:id', getCustomer, (req, res) => {
   // res.send(customerToDelete);
   res.customer
     .remove()
-    .then(() => res.json({ message: 'Customer was deleted' }))
+    .then(() => res.status(200).json({ message: 'Customer was deleted' }))
     .catch((err) => {
       res.status(500).json({ message: err.message });
     });

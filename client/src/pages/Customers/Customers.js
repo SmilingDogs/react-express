@@ -3,6 +3,7 @@ import axios from 'axios';
 import './Customers.css';
 import CustomerForm from '../../components/CustomerForm/CustomerForm';
 import CustomerComponent from '../../components/CustomerComponent/CustomerComponent';
+import { sortByAlphabet } from '../../util/sort';
 
 const Customers = () => {
   const firstNameRef = useRef(null);
@@ -29,11 +30,11 @@ const Customers = () => {
       })
       .then((res) => {
         if (res.status === 201) {
+          getCustomers();
           setServerResponse('Added new Person!');
           firstNameRef.current.value = '';
           lastNameRef.current.value = '';
         }
-        getCustomers();
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -54,9 +55,11 @@ const Customers = () => {
     axios
       .delete(`/api/customers/${_id}`)
       .then((res) => {
-        const { message } = res.data;
-        setDeleteResponse(message);
-        getCustomers();
+        if (res.status === 200) {
+          getCustomers();
+          const { message } = res.data;
+          setDeleteResponse(message);
+        }
       })
       .catch((err) => console.log(err.response.data));
 
@@ -67,9 +70,7 @@ const Customers = () => {
 
   //*Updating the state of customers array
   useEffect(() => {
-
     getCustomers();
-    
   }, []); // for the 1st time render
 
   function getCustomers() {
@@ -89,9 +90,12 @@ const Customers = () => {
 
   //*Mapping array to JSX expression
 
-  const customersList = customers.map((c) => (
-    <CustomerComponent key={c._id} {...c} deleteCustomer={deleteCustomer} />
-  ));
+  const customersList = customers
+    .sort(sortByAlphabet)
+    .map((c) => (
+      <CustomerComponent key={c._id} {...c} deleteCustomer={deleteCustomer} />
+    ));
+
 
   return (
     <div>
