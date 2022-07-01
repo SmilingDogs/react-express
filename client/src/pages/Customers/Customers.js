@@ -12,11 +12,9 @@ const Customers = () => {
   const [errorSecond, setErrorSecond] = useState('');
   const [deleteResponse, setDeleteResponse] = useState('');
   const [serverResponse, setServerResponse] = useState('');
-  const [updateList, setUpdateList] = useState(false);
 
   //*Adding new Customer
   const addNewCustomer = (e) => {
-
     e.preventDefault();
 
     let firstName = firstNameRef.current.value;
@@ -35,6 +33,7 @@ const Customers = () => {
           firstNameRef.current.value = '';
           lastNameRef.current.value = '';
         }
+        getCustomers();
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -48,8 +47,6 @@ const Customers = () => {
     setTimeout(() => {
       setServerResponse('');
     }, 2000);
-  
-    setUpdateList(!updateList);
   };
 
   //*deleting Customer
@@ -59,18 +56,23 @@ const Customers = () => {
       .then((res) => {
         const { message } = res.data;
         setDeleteResponse(message);
+        getCustomers();
       })
       .catch((err) => console.log(err.response.data));
 
     setTimeout(() => {
       setDeleteResponse('');
     }, 2000);
-
-    setUpdateList(!updateList);
   };
 
   //*Updating the state of customers array
   useEffect(() => {
+
+    getCustomers();
+    
+  }, []); // for the 1st time render
+
+  function getCustomers() {
     let cleanupFunction = false;
 
     fetch('/api/customers')
@@ -83,7 +85,7 @@ const Customers = () => {
       });
 
     return () => (cleanupFunction = true);
-  }, [updateList]);
+  }
 
   //*Mapping array to JSX expression
 
@@ -93,7 +95,7 @@ const Customers = () => {
 
   return (
     <div>
-      <h2 className="title">
+      <h2 className='title'>
         {customers.length ? 'Customers' : 'No Customers'}
       </h2>
       <ul>{customersList}</ul>
