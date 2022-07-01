@@ -38,10 +38,12 @@ const Customers = () => {
       })
       .catch((err) => {
         console.log(err.response.data);
-        if (err.response.data.includes('firstName')) {
-          setErrorFirst(err.response.data);
+        let errorData = err.response.data;
+        
+        if (errorData.includes('firstName')) {
+          setErrorFirst(errorData);
         } else {
-          setErrorSecond(err.response.data);
+          setErrorSecond(errorData);
         }
       });
 
