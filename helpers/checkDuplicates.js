@@ -1,17 +1,3 @@
-// const CustomerModel = require('../models/customer');
-
-// function checkDuplicates(customer) {
-//     CustomerModel.find() //gets an array of all customer objects from MongoDB
-//     .then((data) => {
-//       const customers = data;
-//       const {firstName, lastName} = customer;
-//       let exist = customers.find((item) => item.firstName === firstName && item.lastName === lastName);
-//       return exist;
-//     })
-//     .catch(err => console.log(err));
-// }
-
-// module.exports.checkDuplicates = checkDuplicates;
 
 const CustomerModel = require('../models/customer');
 

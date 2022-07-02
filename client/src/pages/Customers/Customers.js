@@ -38,17 +38,16 @@ const Customers = () => {
       })
       .catch((err) => {
         console.log(err.response.data);
-        let errorData = err.response.data;
-        // firstNameRef.current.value = '';
-        // lastNameRef.current.value = '';
-        if (errorData.indexOf('firstName') > -1) {
-          setErrorFirst(errorData);
+        let errorString = err.response.data;
+        
+        if (errorString.indexOf('firstName') > -1) {
+          setErrorFirst(errorString);
         }
-        if (errorData.indexOf('lastName') > -1) {
-          setErrorSecond(errorData);
+        if (errorString.indexOf('lastName') > -1) {
+          setErrorSecond(errorString);
         }
-        if (errorData.indexOf('exists!') > -1) {
-          setErrorSecond(errorData);
+        if (errorString.indexOf('exists!') > -1) {
+          setErrorSecond(errorString);
         }
       });
 
