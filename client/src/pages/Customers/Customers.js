@@ -31,7 +31,8 @@ const Customers = () => {
       .then((res) => {
         if (res.status === 201) {
           getCustomers();
-          setServerResponse('Added new Customer!');
+          const {firstName, lastName} = res.data;
+          setServerResponse(`Added New Customer: ${firstName} ${lastName}`);
           firstNameRef.current.value = '';
           lastNameRef.current.value = '';
         }
