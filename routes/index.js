@@ -4,6 +4,7 @@ const router = express.Router();
 const CustomerModel = require('../models/customer');
 const { getCustomer } = require('../helpers/getCustomer');
 const { validateCustomer } = require('../helpers/validator');
+const { checkDuplicates} = require('../helpers/checkDuplicates');
 
 // hardcode database
 // let customers = [
@@ -40,7 +41,7 @@ router.get('/api/customers/:id', getCustomer, (req, res) => {
 
 //Creating new customer
 
-router.post('/api/customers', (req, res) => {
+router.post('/api/customers', checkDuplicates, (req, res) => {
   const { error } = validateCustomer(req.body);
 
   if (error) {

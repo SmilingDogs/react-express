@@ -31,7 +31,7 @@ const Customers = () => {
       .then((res) => {
         if (res.status === 201) {
           getCustomers();
-          setServerResponse('Added new Person!');
+          setServerResponse('Added new Customer!');
           firstNameRef.current.value = '';
           lastNameRef.current.value = '';
         }
@@ -39,16 +39,23 @@ const Customers = () => {
       .catch((err) => {
         console.log(err.response.data);
         let errorData = err.response.data;
-        
-        if (errorData.includes('firstName')) {
+        // firstNameRef.current.value = '';
+        // lastNameRef.current.value = '';
+        if (errorData.indexOf('firstName') > -1) {
           setErrorFirst(errorData);
-        } else {
+        }
+        if (errorData.indexOf('lastName') > -1) {
+          setErrorSecond(errorData);
+        }
+        if (errorData.indexOf('exists!') > -1) {
           setErrorSecond(errorData);
         }
       });
 
     setTimeout(() => {
       setServerResponse('');
+      setErrorFirst('');
+      setErrorSecond('');
     }, 2000);
   };
 
@@ -97,7 +104,6 @@ const Customers = () => {
     .map((c) => (
       <CustomerComponent key={c._id} {...c} deleteCustomer={deleteCustomer} />
     ));
-
 
   return (
     <div>
