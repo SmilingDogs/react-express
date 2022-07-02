@@ -1,7 +1,7 @@
 
 const CustomerModel = require('../models/customer');
 
-//* middleware for getting certain customer by id (repeats several times)
+//* middleware for checking if such customer already exists
 
 async function checkDuplicates(req, res, next) {
   let customers;
