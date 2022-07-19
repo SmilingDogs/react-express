@@ -12,7 +12,6 @@ const CustomerComponent = ({ _id, firstName, lastName, deleteCustomer }) => {
       <ul className='list'>
         <Tooltip content='Current Customer' position='left'>
           <li className='list-item'>
-            <button className='delete-hidden'>&times;</button>
             <Link to={`/customers/${_id}`} className='list-item__title'>
               {firstName} {lastName}
             </Link>
