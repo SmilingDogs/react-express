@@ -56,14 +56,13 @@ router.post('/api/customers', checkDuplicates, (req, res) => {
   // customers.push(newCustomer);
   // res.status(201).send(newCustomer);
 
-  const customer = new CustomerModel({
+  const newCustomer = new CustomerModel({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
   });
-  customer
+  newCustomer
     .save()
     .then(() => {
-      const newCustomer = customer;
       res.status(201).send(newCustomer);
     })
     .catch((err) => {

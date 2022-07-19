@@ -24,7 +24,8 @@ const CustomerComponent = ({ _id, firstName, lastName, deleteCustomer }) => {
       </ul>
       <Modal open={isOpen} close={onClose}>
         <h2>
-          You are deleting {firstName} {lastName}. Sure?
+          You are deleting {firstName} {lastName}.<br />
+          Sure?
         </h2>
         <div className='buttons-block'>
           <button
